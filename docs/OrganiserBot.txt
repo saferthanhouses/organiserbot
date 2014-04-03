@@ -1,0 +1,21 @@
+OrganiserBot is a simple Python script that organises the folder it is placed in.
+
+v1. 
+
+A Python Script that,
+
+		Once Run:
+
+			It Should:
+
+						0. Look at the directory it is in.
+						1. Look for an clean_up.txt file.
+									- if not Exit.
+						2. Open and sort clean_up.txt into memory.
+						3. For each folder in clean_up: - determine if the folder exists.
+													    - if not, create it.
+						4. For each file in in the directory:
+																- Look up its target folder in clean_up.
+																				(extract file-extension, search, return folder name)
+																- Move the file with that name to the      folder with that name.
+						5. Exit
