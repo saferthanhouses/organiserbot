@@ -1,0 +1,3 @@
+Pictures			.gif .jpg .txt
+Movies				.avi
+Applications		.zip
