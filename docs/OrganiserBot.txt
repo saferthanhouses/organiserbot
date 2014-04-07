@@ -9,9 +9,9 @@ A Python Script that,
 			It Should:
 
 						0. Look at the directory it is in.
-						1. Look for an clean_up.txt file.
+						1. Look for an organise_instruct.txt file.
 									- if not Exit.
-						2. Open and sort clean_up.txt into memory.
+						2. Open and sort organise_instruct.txt into memory.
 						3. For each folder in clean_up: - determine if the folder exists.
 													    - if not, create it.
 						4. For each file in in the directory:

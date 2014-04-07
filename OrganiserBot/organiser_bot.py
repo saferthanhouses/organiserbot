@@ -77,7 +77,9 @@ def move_files(dir_cont, instr, here):
 
 		ftype = extract_ftype(f) 		
 		if ftype: 
-			dest = find_dest(ftype)		
+			dest = find_dest(ftype)
+		else:
+			dest = False		
 
 		if dest: 
 			fpath = os.path.join(here, f)
