@@ -48,7 +48,8 @@ def build_instr(inst_path):
 			if (len(raw) < 2) or (raw[0][0]=='.'):
 				raise BadInstructionsError()
 			else:
-				instructions[raw[0]]=raw[1]
+				instructions[raw[0]]=[n for n in raw[1:]]
+	
 
 	return instructions
 
@@ -59,11 +60,10 @@ def build_instr(inst_path):
 def check_setup(here, instruct):
 	'''Check that the folders listed in the instructions exist. If not, make them.'''
 
-	for dirs in instruct.keys(): 
-			dpath = os.path.join(here, dirs)
-
-			if not os.path.exists(dpath):
-				os.makedirs(dpath) 			
+	for dirs in instruct.keys():
+		dpath = os.path.join(here, dirs)
+		if not os.path.exists(dpath):
+			os.mkdir(dpath) 			
 
 
 
@@ -74,49 +74,53 @@ def move_files(dir_cont, instr, here):
 	'''for each file in the contents, extract the filename, look it up in the instructions and move it there.'''
 															
 	for f in dir_cont['files']:
-
-		ftype = extract_ftype(f) 		
+		# print("file:", f)						# TEST
+		ftype = extract_ftype(f)
+		#print("Ftype: ", ftype) 				# TEST
 		if ftype: 
-			dest = find_dest(ftype)
+			dest = find_dest(ftype, instr)
+		#	print("Destination: ", dest)		# TEST
 		else:
 			dest = False		
 
 		if dest: 
-			fpath = os.path.join(here, f)
+			fpath = os.path.join(here, f)	
+		#	print("filepath: ", fpath)			# TEST
 			dpath = os.path.join(here, dest)
+		#	print("destiationpath", dpath)		# TEST	
 
-			shutil.move(fpath, dpath)
-
+			shutil.move(fpath, dpath)			
 
 
 def extract_ftype(f):
+	ft_regexp = r'(\.[a-z]+)?'
 
-	if f == "organiser_bot.py" or "ORGANISE_INSTRUCT.txt":
+	if (f == "organiser_bot.py") or (f == "ORGANISE_INSTRUCT.txt"):
 		return None
 	elif f[0]=='.':
 		return None
-
-	ft_regexp = r'(\.[a-z]+)?'
-	ft = re.findall(ft_regexp, file_name)	
 	
-	return ''.join(file_type)
+	ft = re.findall(ft_regexp, f)	
+	ft = ''.join(ft)
+
+	return ft
 
 
 
 def find_dest(ftype, instr):
 	f_types = [ft for dv in instr.values() for ft in dv]		# Flatten the lists of filetypes
-
+	#print(f_types) 							# TEST
 	if ftype in f_types:										# Reverse Lookup not appropriate approach to dict/
 		for n in instr:											# Not appropriate datatype for approach.
 			if ftype in instr[n]:								# Solution? Tuples? ('picture', ['.jpg', '.gif'])
-				return instr[n]
+				return n
 
 	else:
 		return None
 
 
 
-def main():
+def main():			
 
 	here = dir_path()		# 0.
 
@@ -132,8 +136,10 @@ def main():
 		move_files(contents, instruct, here)
 
 
-	else:
+	else:	
 		print("ORGANISE_INSTRUCT.TXT not found")
 
-if __name__=="__MAIN__":
+if __name__=="__main__":
 	main()
+else:
+	print('wrong name')

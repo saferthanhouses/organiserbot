@@ -1,0 +1,2 @@
+- Resolve filename conflicts (moves a file to a folder that already contains a file of that name)
+
